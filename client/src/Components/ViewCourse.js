@@ -7,21 +7,23 @@ import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import Pagination from '@mui/material/Pagination';
+import ViewBlog from './ViewBlog';
 
 const steps = [
   {
-    label: 'Select campaign settings',
+    label: 'Step 1',
     description: `For each ad campaign that you create, you can control how much
               you're willing to spend on clicks and conversions, which networks
               and geographical locations you want your ads to show on, and more.`,
   },
   {
-    label: 'Create an ad group',
+    label: 'Step 2',
     description:
       'An ad group contains one or more ads which target a shared set of keywords.',
   },
   {
-    label: 'Create an ad',
+    label: 'Step 3',
     description: `Try out different ad text to see what brings in the most customers,
               and learn how to enhance your ads using features like ad extensions.
               If you run into any problems with your ads, find out how to tell if
@@ -92,6 +94,8 @@ export default function VerticalLinearStepper() {
           </Button>
         </Paper>
       )}
+      {activeStep}
+      <center><Pagination count={10} size="small" /></center>
     </Box>
     </>
   );
