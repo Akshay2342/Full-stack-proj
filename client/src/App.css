@@ -1,0 +1,117 @@
+*{
+    margin: 0px;
+    padding: 0%;
+}
+
+
+/* These are for View Test */
+ 
+.lst_of_ques{
+    margin-left: calc(20%);
+    margin-right: calc(15%);
+    /* display: flex; */
+    /* justify-content: center; */
+}
+.topQ{
+    display: flex;
+    justify-content: space-between;
+}
+
+/* These are for View Test */
+.layout{
+    margin-left: calc(20%);
+    margin-right: calc(15%);
+    height: 80vh;
+    border: 2px solid black;
+    /* position: relative; */
+}
+
+
+/* For Editor */
+.editor{
+    position: absolute;
+    left: calc(15%);
+    right: calc(20%);
+}
+
+
+/* For testing only */
+
+.testi{
+    width: 300px;
+
+}
+
+
+
+/* For testing only */
+
+
+/* FOr Blog View */
+
+.BlogView{
+    margin-left: calc(20%);
+    margin-right: calc(25%);
+    height: auto;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    /* position: relative; */
+    /* margin: 20px; */
+    padding: 25px;
+}
+.topblog{
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+}
+.imgBlog{
+    background-image: url("https://picsum.photos/200/300");
+    height: 50vh;
+    width: auto;
+    background-size: cover;
+    background-position: center;
+    opacity: 1;
+}
+.BlogView .content{
+    padding-top: 10px;
+}
+.commentBox{
+    margin-top : 10px;
+}
+
+/* FOr Blog View */
+
+
+/* for View COurse */
+
+.ViewCourse{
+    margin-left: calc(20%);
+    margin-right: calc(25%);
+    height: 80vh;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    /* position: relative; */
+    /* margin: 20px; */
+    padding: 25px;  position: relative;
+}
+.stepper{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.pages {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+  }
+/* for View COurse */
+
+/* For Upload COurse */
+.testi{
+    margin-top: 30px;
+}
+/* For Upload COurse */
