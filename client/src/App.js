@@ -32,7 +32,7 @@ function App() {
             <Route path="/view_course" element={<ViewCourse />} />
           </Routes>
       </div>
-      
+
     </div>
     </Router>
   );
