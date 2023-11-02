@@ -11,9 +11,12 @@ import ViewCourse from './Components/ViewCourse';
 import QuestionPages from './Components/ViewTest';
 import UploadTestCpy from './Components/UploadTestCpy';
 import TransitionGroupExample from './Components/Transistion';
+import LsDisplay from './Components/LsDisplay';
+import { AuthContexProvider } from './context/authContext';
 
 function App() {
   return (
+    <AuthContexProvider>
     <Router>
     <div className="App">
       <div className="Navbar">
@@ -30,11 +33,13 @@ function App() {
             <Route path="/view_test" element={<QuestionPages />} />
             <Route path="/upload_course" element={<TransitionGroupExample/>} />
             <Route path="/view_course" element={<ViewCourse />} />
+            <Route path="/login" element={<LsDisplay />} />
           </Routes>
       </div>
 
     </div>
     </Router>
+    </AuthContexProvider>
   );
 }
 
