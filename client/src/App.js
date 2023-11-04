@@ -6,7 +6,7 @@ import UploadBlog from './Components/UploadBlog';
 import ViewBlog from './Components/ViewBlog';
 import ViewBook from './Components/ViewBook';
 import UploadBook from './Components/UploadBook';
-import UploadCourse from './Components/UploadCourse';
+// import UploadCourse from './Components/UploadCourse';
 import ViewCourse from './Components/ViewCourse';
 import QuestionPages from './Components/ViewTest';
 import UploadTestCpy from './Components/UploadTestCpy';
