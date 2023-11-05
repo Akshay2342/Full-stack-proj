@@ -9,6 +9,4 @@ router.get('/:id',getTestById);
 
 router.get('/',getAllTests);
 
-router.post('/:id',postTest);
-
 module.exports = router;
