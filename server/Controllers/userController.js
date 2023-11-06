@@ -1,3 +1,5 @@
+const db = require('../conn.js');
+
 const getAllBooksOfUser = async (req, res) => {
     res.send('getAllBooksOfUser');
   }
@@ -25,6 +27,16 @@ const getAllBooksOfUser = async (req, res) => {
   }
   
   const createBlog = async (req, res) => {
+    // req.body.title, req.body.content, req.body.user, req.body.date);
+    // res.json(
+    //   {
+    //     "title": req.body.title,
+    //     "content": req.body.content,
+    //     "user": req.body.user,
+    //     "date": req.body.date
+    //   }
+    // );
+    console.log(req.body);
     res.send('createBlog');
   }
   

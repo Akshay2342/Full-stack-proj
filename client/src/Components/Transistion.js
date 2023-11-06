@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { ButtonGroup, TextField } from '@mui/material';
 import { Autocomplete } from '@mui/material';
 import { useState } from 'react';
 import Button from '@mui/material/Button';
@@ -42,8 +42,8 @@ function RenderItem({ item, handleRemoveitem }) {
       {item.newCourseId}
          <div>
         <strong>ID:</strong> {item.newCourseId} <br />
-        <strong>Title:</strong> {item.StepTitle} <br />
-        <strong>Description:</strong> {item.description}
+        <strong>Title:</strong> {item.StepContent} <br />
+        <strong>Description:</strong> {item.Title}
       </div>
     </ListItem>
   );
@@ -57,7 +57,7 @@ export default function TransitionGroupExample() {
 
   const handleAddItems = () => {
     if (inputValue && !items.some(item => item.newCourseId === inputValue)) {
-      setItems([{newCourseId : inputValue}, ...items]);
+      setItems([{newCourseId : inputValue,StepContent : description , "Title" : StepTitle}, ...items]);
       setInputValue('');
       setStepTitle('');
       setDescription('');
@@ -68,11 +68,17 @@ export default function TransitionGroupExample() {
     setItems((prev) => prev.filter((i) => i.newCourseId !== item.newCourseId));
   };
 
+  const createCourse = () => {
+    //create course with items
+    console.log(items);
+  }
+
   const addItemButton = (
     <Button
       variant="contained"
       disabled={!inputValue || items.some(item => item.newCourseId === inputValue)}
       onClick={handleAddItems}
+      aria-required 
     >
       Add Content
     </Button>
@@ -84,7 +90,7 @@ export default function TransitionGroupExample() {
         <Autocomplete
           disablePortal
           id="combo-box-demo"
-          options={ids}
+          options={[...ids,""]}
           sx={{ width: 300 }}
           value={inputValue}
           onInputChange={(event, newInputValue) => {
@@ -106,6 +112,7 @@ export default function TransitionGroupExample() {
           </TransitionGroup>
         </List>
       </div>
+      <Button variant="outlined" onClick={createCourse}>Create New Course</Button>
     </center>
   );
 }

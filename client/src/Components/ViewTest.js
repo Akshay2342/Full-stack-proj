@@ -133,7 +133,7 @@ const QuestionPages = () => {
             {submitted && <FormHelperText error={errorStates[index]}>{helperTexts[index]}</FormHelperText>}
           </Card>
         ))}
-        <Button type="submit" variant="outlined">
+        <Button type="submit" variant="outlined" disabled = {submitted}>
           Check Answers
         </Button>
       </form>
