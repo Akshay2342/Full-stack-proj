@@ -21,7 +21,6 @@ const comments = [
   //generate some examples of comments
   { id: 3, userAvatar: 'avatar3.png', userId: 'user3', date: '2022-01-03', text: 'This is a comment' },
   { id: 4, userAvatar: 'avatar4.png', userId: 'user4', date: '2022-01-04', text: 'This is another comment' },
-  
 ];
 
 

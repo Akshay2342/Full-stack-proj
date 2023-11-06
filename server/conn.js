@@ -4,7 +4,7 @@ const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
   password: null,
-  database: 'akshay'
+  database: 'newdb'
 }).promise();
 
 // connection.connect((err)=>{

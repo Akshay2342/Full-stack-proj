@@ -103,5 +103,5 @@ const getAllBooksOfUser = async (req, res) => {
     getAllCoursesOfUser,
     createCourse,
     updateCourse,
-    deleteCourse
+    deleteCourse,
   }

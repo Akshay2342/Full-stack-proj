@@ -17,7 +17,7 @@ const {
     getAllCoursesOfUser,
     createCourse,
     updateCourse,
-    deleteCourse
+    deleteCourse,
 } = require('../Controllers/userController.js');
 
 // Get all content of a user
@@ -66,5 +66,6 @@ router.route('/content/courses')
 router.route('/content/courses/:id')
   .put(updateCourse)
   .delete(deleteCourse);
+
 
 module.exports = router;

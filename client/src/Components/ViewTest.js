@@ -136,7 +136,7 @@ const QuestionPages = () => {
         <Button type="submit" variant="outlined" disabled = {submitted}>
           Check Answers
         </Button>
-      </form>
+      </form> 
       { submitted && <h3>Total Marks : {total}</h3>}
     </div>
   );
