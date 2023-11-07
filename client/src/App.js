@@ -13,9 +13,36 @@ import UploadTestCpy from './Components/UploadTestCpy';
 import TransitionGroupExample from './Components/Transistion';
 import LsDisplay from './Components/LsDisplay';
 import { AuthContexProvider } from './context/authContext';
+import { ThemeProvider,createTheme } from '@mui/material/styles';
+import { Card } from '@mui/material';
+import { Box } from '@mui/system';
+
+export const themeOptions = {
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#bc87e6',
+    },
+    secondary: {
+      main: '#9c27b0',
+    },
+  },
+};
+
+const theme = createTheme(themeOptions);
 
 function App() {
   return (
+    <ThemeProvider theme={theme}>
+       <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
+          backgroundColor: theme.palette.background.default,
+          color: theme.palette.text.primary,
+        }}
+      >
     <AuthContexProvider>
     <Router>
     <div className="App">
@@ -40,6 +67,8 @@ function App() {
     </div>
     </Router>
     </AuthContexProvider>
+    </Box>
+    </ThemeProvider>
   );
 }
 
