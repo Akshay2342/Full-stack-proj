@@ -14,7 +14,6 @@ import TransitionGroupExample from './Components/Transistion';
 import LsDisplay from './Components/LsDisplay';
 import { AuthContexProvider } from './context/authContext';
 import { ThemeProvider,createTheme } from '@mui/material/styles';
-import { Card } from '@mui/material';
 import { Box } from '@mui/system';
 
 export const themeOptions = {

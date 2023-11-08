@@ -21,7 +21,7 @@ import LoginIcon from "@mui/icons-material/Login";
 
 // Email Validation
 const isEmail = (email) =>{
-  if(email.length!=0){
+  if(email.length!==0){
     return true;
   }
   else{
@@ -29,7 +29,7 @@ const isEmail = (email) =>{
   }
 }
  
-export default function SignUp() {
+export default function Login() {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const { login } = useContext(AuthContext);

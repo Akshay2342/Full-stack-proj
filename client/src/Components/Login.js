@@ -9,7 +9,6 @@ import {
   IconButton,
   Button,
   Input,
-  Checkbox,
   Alert,
   Stack,
 } from "@mui/material";
@@ -24,10 +23,10 @@ import LoginIcon from "@mui/icons-material/Login";
 // Email Validation
 const isEmail = (email) =>
  {
-  if(email.length!=0) return true;
+  if(email.length!==0) return true;
   else return false;
  }
-export default function Login() {
+export default function SignUp() {
   const [showPassword, setShowPassword] = React.useState(false);
 
   //Inputs
@@ -94,8 +93,8 @@ export default function Login() {
     e.preventDefault();
     //First of all Check for Errors
     try{
-        await axios.post("http://localhost:8004/signup/",{
-        nickname:usernameInput,  
+        await axios.post("http://localhost:5000/users/",{
+        nickname:usernameInput,     
         username : emailInput,
         password : passwordInput
       })

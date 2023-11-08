@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt=require("bcryptjs") ;
+const jwt = require("jsonwebtoken");
+const db = require('../conn');
 const {
     getAllContentOfUser,
     getAllBooksOfUser,
@@ -67,5 +70,99 @@ router.route('/content/courses/:id')
   .put(updateCourse)
   .delete(deleteCourse);
 
+  //for Sign Up
+
+
+  router.post("/signup",(req, res) => {
+    //CHECK EXISTING USER
+    const q = "SELECT * FROM user WHERE username = ?";
+    
+    console.log(req.body.username)
+    db.query(q, [req.body.username], (err, data) => {
+      if (err) {
+        console.error(err); 
+        return res.status(500).json(err);
+      }
+      if (data.length) return res.status(409).json("exist");
+  
+      //Hash the password and create a user
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(req.body.password, salt);
+  
+      const q = "INSERT INTO user(`username`,`password`,`name`) VALUES (?)";
+      const values = [req.body.username, hash, req.body.nickname];
+  
+      db.query(q, [values], (err, data) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json(err);
+        }
+        res.status(200).json("User created");
+      });
+    });
+  });
+
+
+  router.post("/login",(req, res) => {
+    //CHECK USER
+  
+    const q = "SELECT * FROM user WHERE username = ?";
+    db.query(q, [req.body.username], (err, data) => {
+        console.log(data.length);
+      if (err) return res.status(500).json(err);
+      if (data.length === 0) return res.status(404).json("User not found!");
+  
+      //Check password
+      const isPasswordCorrect = bcrypt.compareSync(
+        req.body.password,
+        data[0].password
+      );
+        console.log(req.body.password);
+        console.log("data[0].password:", data[0].password);
+      if (!isPasswordCorrect)
+        return res.status(400).json("Wrong username or password!");
+      
+      const token = jwt.sign({ id: data[0].id }, "jwtkey");
+      const { password, ...other } = data[0];
+  
+      res
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .status(200)
+        .json({"ok" : "ok"});
+        
+    });
+    res.send("ok");
+  });
+  
+  router.post("/logout",(req, res) => {
+    res.clearCookie("access_token",{
+      sameSite:"none",
+      secure:true
+    }).status(200).json("User has been logged out.")
+  });
+
+  router.get("/blogshome", (req, res) => {
+    const q = 'SELECT * FROM usersdata LIMIT 3';
+  
+    db.query(q, (err, result) => { // Change 'error' to 'err' here
+      if (err) {
+        console.log('Error searching for book:', err);
+        res.status(500).send('Error searching for book');
+        return;
+      }
+      console.log(result);
+      res.status(200).json(result);
+    });
+  });
+  
+
+
+module.exports = router;
+
+
+
+  // for Login 
 
 module.exports = router;
