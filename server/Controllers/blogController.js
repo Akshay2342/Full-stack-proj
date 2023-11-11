@@ -2,19 +2,19 @@ const db = require('../conn');
 const asyncHandler = require('express-async-handler');
 
 // by blog id 
+// by blog id 
 const getBlogById = asyncHandler(async (req, res) => {
     const id = req.params.id;
-    // try {
-    //     const { rows } = await db.query('SELECT * FROM blog WHERE contentID = $1', [id]);
-    //     if (rows.length === 0) {
-    //         throw new Error('Blog not found');
-    //     } else {
-    //         res.status(200).json(rows[0]);
-    //     }
-    // } catch (error) {
-    //     throw error;
-    // }
-    res.json({ id });
+    try {
+        const [ rows ] = await db.query('SELECT * FROM blog WHERE contentID = ?', [id]);
+        if (rows.length === 0) {
+            throw new Error('Blog not found');
+        } else {
+            res.status(200).json(rows[0]);
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.toString() });
+    }
 });
 
 // all blogs

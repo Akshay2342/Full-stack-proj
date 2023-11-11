@@ -6,6 +6,7 @@ import {useState} from 'react'
 import{ Button }from '@mui/material';
 import Alert from '@mui/material/Alert';
 import { SnackbarProvider, useSnackbar } from 'notistack';
+import axios from 'axios';
 
 const initialQuestion = {
     question : '',
@@ -24,6 +25,7 @@ const UploadTestCpy = ()=>{
     const [questionList , setquestionList] = useState([]);
     const [newQuestion,setnewQuestion] = useState({...initialQuestion});
     const { enqueueSnackbar } = useSnackbar();
+    const [title,setTitle] = useState('');
 
     const addQues = ()=>{
         setorder(order+1);
@@ -74,6 +76,7 @@ const UploadTestCpy = ()=>{
 //         option4: e.target.value,
 //     });
 // };
+const username = "akshay";
 const handleOptionChange = (e, index) => {
     const updatedOptions = [...newQuestion.options];
     updatedOptions[index] = e.target.value;
@@ -93,7 +96,17 @@ const handleClickVariant = (variant) => () => {
     // variant could be success, error, warning, info, or default
     enqueueSnackbar('This is a success message!', { variant });
   };
-
+  const handleSubmit = ()=>{
+    const date = new Date();
+   const dateString =date.toISOString().split('T')[0];
+    const it = {
+      title : title,  
+      date : dateString,
+      user : username,
+      questions : questionList
+    }
+    axios.post("http://localhost:5000/api/user/content/tests",it)
+  }
     
 
     return ( 
@@ -106,6 +119,8 @@ const handleClickVariant = (variant) => () => {
           id="outlined-required"
           label="Title"
           placeholder="Title Of the Test"
+          value={title}
+          onChange={(e)=>setTitle(e.target.value)}
         />
         
         
@@ -196,7 +211,7 @@ const handleClickVariant = (variant) => () => {
 )} */}
     <SnackbarProvider maxSnack={3}>
     </SnackbarProvider>
-      
+      <button onClick={handleSubmit}>submit</button>
       </div>
       </>
      );

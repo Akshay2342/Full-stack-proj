@@ -27,17 +27,52 @@ const getAllBooksOfUser = async (req, res) => {
   }
   
   const createBlog = async (req, res) => {
-    // req.body.title, req.body.content, req.body.user, req.body.date);
-    // res.json(
-    //   {
-    //     "title": req.body.title,
-    //     "content": req.body.content,
-    //     "user": req.body.user,
-    //     "date": req.body.date
-    //   }
-    // );
-    console.log(req.body);
-    res.send('createBlog');
+    let query = 'INSERT INTO content SET ?';
+    let query1 = 'INSERT INTO blog SET ?';
+    const username = req.body.user; // or wherever you get the username from
+
+// Execute a SELECT statement to get the user ID
+const result = await db.query('SELECT userId FROM user WHERE username = ?', [username]);
+
+// The ID of the user
+const userId = result[0].id;
+      const contdata = {
+        contentType  : "blog",
+        likes : 0,
+        uploadDate : req.body.date,
+      }
+      const contentResult= await db.query(query, contdata, (error, results) => {
+      if (error) throw error;
+      console.log('Inserted ' + results.affectedRows + ' row(s).');
+    });
+    // Insert the content into the content table
+    // const contentResult = await db.query('INSERT INTO content (contentType, content, user, date) VALUES (?, ?, ?, ?)', [req.body.title, req.body.content, req.body.user, req.body.date]);
+    
+    // Get the newly generated ID
+    const contentId = contentResult.contentId;
+      // Insert a new row into the blogs table using the newly generated ID
+      let data = {
+        contentId : contentId,
+        title: req.body.title,
+        description : "Not an Issue",
+        content: req.body.content,
+        userId: userId,
+      };
+      
+      const blogResult= await db.query(query1, data, (error, results) => {
+        if (error) throw error;
+        console.log('Inserted ' + results.affectedRows + ' row(s).');
+      });
+
+
+    res.json(
+      {
+        message : 'inserted'
+      }
+    );
+
+    // console.log(req.body);
+    // res.send('createBlog');
   }
   
   const updateBlog = async (req, res) => {
@@ -54,8 +89,56 @@ const getAllBooksOfUser = async (req, res) => {
     res.send('getAllTestsOfUser');
   }
   
+  // body should contain username, 
   const createTest = async (req, res) => {
-    res.send('createTest');
+    let query = 'INSERT INTO content SET ?';
+    let query1 = 'INSERT INTO test SET ?';
+    const username = req.body.user; // or wherever you get the username from
+
+// Execute a SELECT statement to get the user ID
+const result = await db.query('SELECT userId FROM user WHERE username = ?', username);
+
+// The ID of the user
+// {
+//   username : ...,
+// date : ...,
+//   questions : [{},{}]
+// }
+const userId = result[0][0].userId;
+      const contdata = {
+        contentType  : "test",
+        likes : 0,
+        uploadDate : req.body.date,
+      }
+      const contentResult= await db.query(query, contdata, (error, results) => {
+      if (error) throw error;
+      console.log('Inserted ' + results.affectedRows + ' row(s).');
+    });
+    // Insert the content into the content table
+    // const contentResult = await db.query('INSERT INTO content (contentType, content, user, date) VALUES (?, ?, ?, ?)', [req.body.title, req.body.content, req.body.user, req.body.date]);
+    
+    // Get the newly generated ID
+    const contentId = contentResult[0].insertId;
+      // Insert a new row into the blogs table using the newly generated ID
+      let data = {
+        contentId : contentId,
+        title: req.body.title,
+        userID: userId,
+        questions: JSON.stringify( req.body.questions)
+      };
+      
+      const TestResult= await db.query(query1, data, (error, results) => {
+        if (error) throw error;
+        console.log('Inserted ' + results.affectedRows + ' row(s).');
+      });
+
+
+    res.json(
+      {
+        message : "ok"
+      }
+    );
+
   }
   
   const updateTest = async (req, res) => {

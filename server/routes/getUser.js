@@ -73,35 +73,39 @@ router.route('/content/courses/:id')
   //for Sign Up
 
 
-  router.post("/signup",(req, res) => {
-    //CHECK EXISTING USER
-    const q = "SELECT * FROM user WHERE username = ?";
-    
-    console.log(req.body.username)
-    db.query(q, [req.body.username], (err, data) => {
-      if (err) {
-        console.error(err); 
-        return res.status(500).json(err);
-      }
-      if (data.length) return res.status(409).json("exist");
-  
-      //Hash the password and create a user
-      const salt = bcrypt.genSaltSync(10);
-      const hash = bcrypt.hashSync(req.body.password, salt);
-  
-      const q = "INSERT INTO user(`username`,`password`,`name`) VALUES (?)";
-      const values = [req.body.username, hash, req.body.nickname];
-  
-      db.query(q, [values], (err, data) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).json(err);
-        }
-        res.status(200).json("User created");
-      });
-    });
-  });
+  // router.post("/signup", (req, res) => {
+    // CHECK EXISTING USER
+    // const q1 = "SELECT * FROM user WHERE username = ?";
+    // console.log(req.body);
+//     db.query(q1, [req.body.username], (err, data) => {
+//         // if (err) {
+//         //     console.error(err); 
+//         //     return res.status(500).json(err);
+//         // }
 
+//         // if (data.length) {
+//         //     return res.status(409).json("exist");
+//         // }
+
+//         console.log("working");
+
+//         // // Hash the password and create a user
+//         // const salt = bcrypt.genSaltSync(10);
+//         // const hash = bcrypt.hashSync(req.body.password, salt);
+
+//         // const q = "INSERT INTO user SET username = ?, password = ?, name = ?";
+//         // const values = [req.body.username, hash, req.body.nickname];
+
+//         // db.query(q, values, (err, data) => {
+//         //     if (err) {
+//         //         console.error(err);
+//         //         return res.status(500).json(err);
+//         //     }
+//         //     res.status(200).json("User created");
+//         // });
+//     });
+//     // res.send("ok");
+// });
 
   router.post("/login",(req, res) => {
     //CHECK USER
@@ -133,7 +137,6 @@ router.route('/content/courses/:id')
         .json({"ok" : "ok"});
         
     });
-    res.send("ok");
   });
   
   router.post("/logout",(req, res) => {
@@ -156,13 +159,6 @@ router.route('/content/courses/:id')
       res.status(200).json(result);
     });
   });
-  
-
-
-module.exports = router;
-
-
-
   // for Login 
 
 module.exports = router;

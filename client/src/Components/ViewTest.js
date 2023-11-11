@@ -6,37 +6,38 @@ import Radio from '@mui/material/Radio';
 import FormHelperText from '@mui/material/FormHelperText';
 import Button from '@mui/material/Button';
 import { blueGrey } from '@mui/material/colors';
-
+import axios from 'axios';
 
 const color = blueGrey[100]
 
-const questions = [
-    {
-      questionText: "What is the capital of France?",
-      options: ["London", "Madrid", "Paris", "Berlin"],
-      correctAnswer: "Paris",
-      marks: 2, // Question is worth 2 marks
-    },
-    {
-      questionText: "Which planet is known as the Red Planet?",
-      options: ["Mars", "Jupiter", "Venus", "Saturn"],
-      correctAnswer: "Mars",
-      marks: 1, // Question is worth 1 mark
-    },
-    {
-      questionText: "Who wrote the play 'Romeo and Juliet'?",
-      options: ["William Shakespeare", "Charles Dickens", "Jane Austen", "Mark Twain"],
-      correctAnswer: "William Shakespeare",
-      marks: 3, // Question is worth 3 marks
-    },
-    {
-      questionText: "What is the largest mammal in the world?",
-      options: ["Elephant", "Giraffe", "Blue Whale", "Lion"],
-      correctAnswer: "Blue Whale",
-      marks: 2, // Question is worth 2 marks
-    },
-  ];
-  
+// const questions = [
+//     {
+//       questionText: "What is the capital of France?",
+//       options: ["London", "Madrid", "Paris", "Berlin"],
+//       correctAnswer: "Paris",
+//       marks: 2, // Question is worth 2 marks
+//     },
+//     {
+//       questionText: "Which planet is known as the Red Planet?",
+//       options: ["Mars", "Jupiter", "Venus", "Saturn"],
+//       correctAnswer: "Mars",
+//       marks: 1, // Question is worth 1 mark
+//     },
+//     {
+//       questionText: "Who wrote the play 'Romeo and Juliet'?",
+//       options: ["William Shakespeare", "Charles Dickens", "Jane Austen", "Mark Twain"],
+//       correctAnswer: "William Shakespeare",
+//       marks: 3, // Question is worth 3 marks
+//     },
+//     {
+//       questionText: "What is the largest mammal in the world?",
+//       options: ["Elephant", "Giraffe", "Blue Whale", "Lion"],
+//       correctAnswer: "Blue Whale",
+//       marks: 2, // Question is worth 2 marks
+//     },
+//   ];
+const resu = await axios.get("http://localhost:5000/api/tests/30");
+const questions = JSON.parse(resu.data[0].questions);
 
 const QuestionPages = () => {
   const [selectedAnswers, setSelectedAnswers] = useState(Array(questions.length).fill(''));
@@ -110,7 +111,7 @@ const QuestionPages = () => {
             backgroundColor : color,
         }}>
             <div className="topQ">
-            <h3>{question.questionText}</h3>
+            <h3>{question.question}</h3>
             <h3>{question.marks} Marks</h3>
             </div>
             <RadioGroup

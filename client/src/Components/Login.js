@@ -93,7 +93,7 @@ export default function SignUp() {
     e.preventDefault();
     //First of all Check for Errors
     try{
-        await axios.post("http://localhost:5000/users/",{
+        await axios.post("http://localhost:5000/user/signup",{
         nickname:usernameInput,     
         username : emailInput,
         password : passwordInput

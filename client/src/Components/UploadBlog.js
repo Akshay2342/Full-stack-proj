@@ -3,11 +3,18 @@ import { useState } from "react";
 import 'react-quill/dist/quill.snow.css'
 import parse from 'html-react-parser';
 import  TextField  from "@mui/material/TextField";
+import axios from "axios";
 
 const UploadBlog = () => {
+  const [title,setTitle] = useState('');
     const [value ,setValue] = useState('');
+
    const handleClick=() =>{
+    let date = new Date();
+    let dateString = date.toISOString().split('T')[0];
+
         console.log(value);
+        axios.post('http://localhost:5000/api/user/content/blogs', { title : title, content: value , user: 'ak_47', date : dateString })
    }
     var toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -36,8 +43,23 @@ const UploadBlog = () => {
     return (
         <div className= "editor">
           <center><h1> Upload Your Blog here:</h1></center>
-          <TextField required id="outlined-basic" label="Enter Title" variant="outlined" style={ {marginBottom : "20px"} }  />
-            <ReactQuill placeholder="write your thoughts" modules={module}  theme="snow" value={value} onChange={setValue} />
+          <TextField 
+  required 
+  id="outlined-basic" 
+  label="Enter Title" 
+  variant="outlined" 
+  style={ {marginBottom : "20px"} } 
+  value={title} 
+  onChange={e => setTitle(e.target.value)}  // change this line
+/>
+
+<ReactQuill   
+  placeholder="write your thoughts" 
+  modules={module}  
+  theme="snow" 
+  value={value} 
+  onChange={content => setValue(content)}  // and this line
+/>
             <div className="dis"> {parse(value)}</div>
             <button type="submit" onClick={handleClick}>Post Blog</button>
         </div>
