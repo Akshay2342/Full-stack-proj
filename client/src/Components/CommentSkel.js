@@ -11,7 +11,6 @@ const CommentBox = ({id}) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(comment); // Replace with your own logic
 
     axios.post(`http://localhost:5000/api/user/content/comment/${id}`,{ username : username, comment : comment })
     console.log(id) 
