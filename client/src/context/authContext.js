@@ -9,7 +9,7 @@ export const AuthContexProvider = ({ children }) => {
   );
 
   const login = async (inputs) => {
-    const res = await axios.post("/login", inputs);
+    const res = await axios.post("http://localhost:5000/api/user/login", inputs);
     setCurrentUser(res.data);
   };
 

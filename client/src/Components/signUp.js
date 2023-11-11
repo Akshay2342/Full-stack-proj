@@ -83,7 +83,7 @@ export default function Login() {
 
     const [inputs,setInputs]=useState({
         username:"",
-        password:"",
+        password:""
     })
     
     const handleChange=(e)=>{

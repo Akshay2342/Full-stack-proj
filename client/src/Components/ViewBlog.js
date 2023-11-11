@@ -18,7 +18,13 @@ import parse from 'html-react-parser';
 //   username: "username",
 //   image: "https://picsum.photos/200/300",
 // };
+
+
+//test
 const id = 1;
+//test
+
+
 const res = await axios.get(`http://localhost:5000/api/blogs/${id}`);
 const blog = res.data;
 console.log(blog);
@@ -61,7 +67,7 @@ const ViewBlog = () => {
         </div>
         <hr />
         <div className="commentBox">
-          <CommentBox />
+          <CommentBox id={id} />
         </div>
         <CommentList comments={comments}/>
       </div>

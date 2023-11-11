@@ -21,6 +21,9 @@ const {
     createCourse,
     updateCourse,
     deleteCourse,
+    postComment,
+    updateComment,
+    deleteComment,
 } = require('../Controllers/userController.js');
 
 // Get all content of a user
@@ -73,48 +76,45 @@ router.route('/content/courses/:id')
   //for Sign Up
 
 
-  // router.post("/signup", (req, res) => {
+  router.post("/signup", (req, res) => {
     // CHECK EXISTING USER
-    // const q1 = "SELECT * FROM user WHERE username = ?";
-    // console.log(req.body);
-//     db.query(q1, [req.body.username], (err, data) => {
-//         // if (err) {
-//         //     console.error(err); 
-//         //     return res.status(500).json(err);
-//         // }
+    const q1 = "SELECT * FROM user WHERE username = ?";
+    console.log(req.body.username)
+     db.query(q1, [req.body.username], (err, data) => {
+        if (err) {
+            console.error(err); 
+            return res.status(500).json(err);
+        }
+        console.log(data)
 
-//         // if (data.length) {
-//         //     return res.status(409).json("exist");
-//         // }
+        if (data.length) {
+            return res.status(409).json("exist");
+        }});
+        // Hash the password and create a user
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(req.body.password, salt);
 
-//         console.log("working");
+        const q = "INSERT INTO user SET username = ?, password = ?, name = ?";
+        const values = [req.body.username, hash, req.body.nickname];
 
-//         // // Hash the password and create a user
-//         // const salt = bcrypt.genSaltSync(10);
-//         // const hash = bcrypt.hashSync(req.body.password, salt);
-
-//         // const q = "INSERT INTO user SET username = ?, password = ?, name = ?";
-//         // const values = [req.body.username, hash, req.body.nickname];
-
-//         // db.query(q, values, (err, data) => {
-//         //     if (err) {
-//         //         console.error(err);
-//         //         return res.status(500).json(err);
-//         //     }
-//         //     res.status(200).json("User created");
-//         // });
-//     });
-//     // res.send("ok");
-// });
+        db.query(q, values, (err, data) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json(err);
+            }
+            res.status(200).json("User created");
+        });
+    });
 
   router.post("/login",(req, res) => {
     //CHECK USER
   
     const q = "SELECT * FROM user WHERE username = ?";
-    db.query(q, [req.body.username], (err, data) => {
+    const data = db.query(q, [req.body.username], (err, data) => {
         console.log(data.length);
       if (err) return res.status(500).json(err);
       if (data.length === 0) return res.status(404).json("User not found!");
+    });
   
       //Check password
       const isPasswordCorrect = bcrypt.compareSync(
@@ -137,7 +137,6 @@ router.route('/content/courses/:id')
         .json({"ok" : "ok"});
         
     });
-  });
   
   router.post("/logout",(req, res) => {
     res.clearCookie("access_token",{
@@ -159,6 +158,7 @@ router.route('/content/courses/:id')
       res.status(200).json(result);
     });
   });
-  // for Login 
+  // for comment a content
+  router.route('/content/comment/:id').post(postComment).put(updateComment).delete(deleteComment);
 
 module.exports = router;

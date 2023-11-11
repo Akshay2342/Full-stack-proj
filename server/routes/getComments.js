@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router();
 
-const {getCommentById,postComment} = require('../Controllers/commentController');
+const {getCommentById} = require('../Controllers/commentController');
 
 // get comment with particular id
 // public
@@ -16,7 +16,7 @@ router.get('/:id',getCommentById);
 // post a comment
 // private
 // content id
-router.post('/:id',postComment);
+// router.post('/:id',postComment);
 
 // update a comment
 // private
