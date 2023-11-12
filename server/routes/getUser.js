@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt=require("bcryptjs") ;
 const jwt = require("jsonwebtoken");
 const db = require('../conn');
+const auth = require('../middleware/auth');
 const {
     getAllContentOfUser,
     getAllBooksOfUser,
@@ -26,6 +27,7 @@ const {
     deleteComment,
 } = require('../Controllers/userController.js');
 const multer = require('multer');
+const asyncHandler = require('express-async-handler');
 
 const upload = multer({ storage: multer.memoryStorage() });
 // Get all content of a user
@@ -50,8 +52,8 @@ router.route('/content/books/:id')
 // Handle blogs
 //for post auth required
 router.route('/content/blogs')
-  .get(getAllBlogsOfUser)
-  .post(createBlog);
+  .get(auth,getAllBlogsOfUser)
+  .post(auth,createBlog);
 
   //for put and delete auth required
 router.route('/content/blogs/:id')
@@ -83,66 +85,65 @@ router.route('/content/courses/:id')
   //for Sign Up
 
 
-  router.post("/signup", (req, res) => {
-    // CHECK EXISTING USER
-    const q1 = "SELECT * FROM user WHERE username = ?";
-    console.log(req.body.username)
-     db.query(q1, [req.body.username], (err, data) => {
-        if (err) {
-            console.error(err); 
-            return res.status(500).json(err);
-        }
+  router.post("/signup", async (req, res) => {
+    try {
+      // CHECK EXISTING USER
+      const q1 = "SELECT * FROM user WHERE username = ?";
+      console.log(req.body.username)
+      const data = await db.query(q1, [req.body.username]);
+      console.log(data[0])
+      if (data[0].length > 0) {
+        return res.status(409).json("exist");
+      }
+  
+      // Hash the password and create a user
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(req.body.password, salt);
+  
+      const q = "INSERT INTO user SET username = ?, password = ?, name = ?";
+      const values = [req.body.username, hash, req.body.nickname];
+  
+      await db.query(q, values);
+      res.status(200).json("User created");
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err);
+    }
+  });
+
+
+    router.post("/login", async (req, res) => {
+      try {
+        // CHECK USER
+        const q = "SELECT * FROM user WHERE username = ?";
+        const data = await db.query(q, [req.body.username]);
+    
+        if (data[0].length === 0) return res.status(404).json("User not found!");
         console.log(data)
-
-        if (data.length) {
-            return res.status(409).json("exist");
-        }});
-        // Hash the password and create a user
-        const salt = bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(req.body.password, salt);
-
-        const q = "INSERT INTO user SET username = ?, password = ?, name = ?";
-        const values = [req.body.username, hash, req.body.nickname];
-
-        db.query(q, values, (err, data) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).json(err);
-            }
-            res.status(200).json("User created");
-        });
-    });
-
-  router.post("/login",(req, res) => {
-    //CHECK USER
-  
-    const q = "SELECT * FROM user WHERE username = ?";
-    const data = db.query(q, [req.body.username], (err, data) => {
-        console.log(data.length);
-      if (err) return res.status(500).json(err);
-      if (data.length === 0) return res.status(404).json("User not found!");
-    });
-  
-      //Check password
-      const isPasswordCorrect = bcrypt.compareSync(
-        req.body.password,
-        data[0].password
-      );
-        console.log(req.body.password);
-        console.log("data[0].password:", data[0].password);
-      if (!isPasswordCorrect)
-        return res.status(400).json("Wrong username or password!");
-      
-      const token = jwt.sign({ id: data[0].id }, "jwtkey");
-      const { password, ...other } = data[0];
-  
-      res
-        .cookie("access_token", token, {
-          httpOnly: true,
-        })
-        .status(200)
-        .json({"ok" : "ok"});
-        
+        // Check password
+        const isPasswordCorrect = bcrypt.compareSync(
+          req.body.password,
+          data[0][0].password
+        );
+        console.log(data[0][0].password)
+        // console.log(req.body.password);
+        // console.log("data[0].password:", data[0].password);
+        if (!isPasswordCorrect)
+          return res.status(400).json("Wrong username or password!");
+    
+        const token = jwt.sign({ id: data[0].id }, "jwtkey");
+        const { password, ...other } = data[0];
+    
+        res
+          .cookie("access_token", token, {
+            httpOnly: true,
+          })
+          .status(200)
+          .json({"ok" : "ok"});
+      } catch (err) {
+        console.error(err);
+        res.status(500).json(err);
+      }
     });
   
   router.post("/logout",(req, res) => {
