@@ -25,7 +25,9 @@ const {
     updateComment,
     deleteComment,
 } = require('../Controllers/userController.js');
+const multer = require('multer');
 
+const upload = multer({ storage: multer.memoryStorage() });
 // Get all content of a user
 router.get('/content', getAllContentOfUser);
 
@@ -33,8 +35,13 @@ router.get('/content', getAllContentOfUser);
 //for post auth required
 router.route('/content/books')
   .get(getAllBooksOfUser)
-  .post(createBook);
+  .post( upload.fields([{ name: 'photo', maxCount: 1 }, { name: 'bookFile', maxCount: 1 }]), createBook);
 
+
+
+
+
+  
 //for put and delete auth required
 router.route('/content/books/:id')
   .put(updateBook)

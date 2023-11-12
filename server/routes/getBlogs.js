@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {getBlogById,getAllBlogs,post} = require('../Controllers/blogController');
+const {getBlogById,getAllBlogs} = require('../Controllers/blogController');
 
 // get blogs with particular id
 // public

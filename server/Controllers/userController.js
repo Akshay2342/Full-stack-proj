@@ -8,9 +8,45 @@ const getAllBooksOfUser = async (req, res) => {
     res.send('getAllContentOfUser');
   }
   
-  const createBook = async (req, res) => {
-    res.send('createBook');
+  const createBook = (req, res) => {
+    let sql = 'INSERT INTO books SET ?';
+    let book = {
+      title: req.body.bookName,
+      author: req.body.author,
+      description: req.body.description,
+      book_img: req.files['photo'][0].buffer,
+      book_pdf: req.files['bookFile'][0].buffer,
+      userID : 3
+    };
+    console.log("reached1");
+    db.query(sql, book, (err, result) => {
+      console.log("reached");
+      if (err) console.log(err);
+      console.log(result);
+      console.log("success");
+      res.send({ status: 201, message: 'Book added...' });
+    });
   }
+
+  // router.post('/register', upload.fields([{ name: 'photo', maxCount: 1 }, { name: 'bookFile', maxCount: 1 }]), (req, res) => {
+  //   let sql = 'INSERT INTO my_books SET ?';
+  //   let book = {
+  //     title: req.body.bookName,
+  //     author: req.body.author,
+  //     description: req.body.description,
+  //     book_img: req.files['photo'][0].buffer,
+  //     book_pdf: req.files['bookFile'][0].buffer
+  //   };
+  //   console.log("reached1");
+  //   conn.query(sql, book, (err, result) => {
+      
+  //     console.log("reached");
+  //     if (err) console.log(err);
+  //     console.log(result);
+  //     console.log("success");
+  //     res.send({ status: 201, message: 'Book added...' });
+  //   });
+  // })
   
   const updateBook = async (req, res) => {
     const id = req.params.id;
