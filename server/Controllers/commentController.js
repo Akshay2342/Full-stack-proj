@@ -21,6 +21,4 @@ const getCommentById = asyncHandler(async (req, res) => {
     }
 });
 
-
-
 module.exports = { getCommentById };

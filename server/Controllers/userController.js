@@ -129,7 +129,7 @@ const userId = result[0].id;
   const createTest = async (req, res) => {
     let query = 'INSERT INTO content SET ?';
     let query1 = 'INSERT INTO test SET ?';
-    const username = req.body.user; // or wherever you get the username from
+    const username = req.headers.userId; // or wherever you get the username from
 
 // Execute a SELECT statement to get the user ID
 
@@ -176,7 +176,6 @@ const userId = result[0].id;
         message : "ok"
       }
     );
-
   }
   
   const updateTest = async (req, res) => {

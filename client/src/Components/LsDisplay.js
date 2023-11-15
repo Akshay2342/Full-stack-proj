@@ -46,7 +46,7 @@ function LsDisplay() {
             inputProps={{ "aria-label": "controlled" }}
           />
         </div>
-        {checked ? <SignUp /> : <AuthContexProvider><Login/></AuthContexProvider>}
+        {checked ? <Login /> : <AuthContexProvider><SignUp/></AuthContexProvider>}
       </Paper>
     </div>
     </center>

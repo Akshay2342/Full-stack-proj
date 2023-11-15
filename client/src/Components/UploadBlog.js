@@ -1,20 +1,37 @@
 import ReactQuill from "react-quill";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import 'react-quill/dist/quill.snow.css'
 import parse from 'html-react-parser';
 import  TextField  from "@mui/material/TextField";
 import axios from "axios";
+import { AuthContext } from "../context/authContext";
 
 const UploadBlog = () => {
   const [title,setTitle] = useState('');
     const [value ,setValue] = useState('');
-
-   const handleClick=() =>{
+    const {currentUser} = useContext(AuthContext);
+    
+    const handleClick=() =>{
     let date = new Date();
     let dateString = date.toISOString().split('T')[0];
 
-        console.log(value);
-        axios.post('http://localhost:5000/api/user/content/blogs', { title : title, content: value , user: 'ak_47', date : dateString })
+        console.log(currentUser);
+
+        axios.post('http://localhost:5000/api/user/content/blogs', 
+        { 
+          title : title, 
+          content: value , 
+          user: currentUser.username, 
+          date : dateString 
+        },
+        { 
+          headers : {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentUser.token}`
+          }
+        }
+      )
+
    }
     var toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons

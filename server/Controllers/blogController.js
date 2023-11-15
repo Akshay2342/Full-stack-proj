@@ -38,12 +38,12 @@ const getAllBlogs = asyncHandler(async (req, res) => {
 // });
 
 const deleteABlog = asyncHandler(async (req, res) => {
-    // try {
-    //     const { rows } = await db.query('DELETE FROM blog WHERE contentID = $1', [req.params.id]);
-    //     res.status(200).json(rows);
-    // } catch (error) {
-    //     throw error;
-    // }
+    try {
+        const { rows } = await db.query('DELETE FROM blog WHERE contentID = $1', [req.params.id]);
+        res.status(200).json(rows);
+    } catch (error) {
+        throw error;
+    }
     res.send("Delete A blog")
 });
 

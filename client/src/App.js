@@ -49,6 +49,7 @@ function App() {
       <Navbar />
       </div>
       <div className="content_x">
+        
       <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/upload_blog" element={<UploadBlog />} />
@@ -62,7 +63,6 @@ function App() {
             <Route path="/login" element={<LsDisplay />} />
           </Routes>
       </div>
-
     </div>
     </Router>
     </AuthContexProvider>

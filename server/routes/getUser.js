@@ -36,18 +36,13 @@ router.get('/content', getAllContentOfUser);
 // Handle books
 //for post auth required
 router.route('/content/books')
-  .get(getAllBooksOfUser)
-  .post( upload.fields([{ name: 'photo', maxCount: 1 }, { name: 'bookFile', maxCount: 1 }]), createBook);
-
-
-
-
-
+  .get(auth, getAllBooksOfUser)
+  .post(auth , upload.fields([{ name: 'photo', maxCount: 1 }, { name: 'bookFile', maxCount: 1 }]), createBook);
   
 //for put and delete auth required
 router.route('/content/books/:id')
-  .put(updateBook)
-  .delete(deleteBook);
+  .put(auth,updateBook)
+  .delete(auth,deleteBook);
 
 // Handle blogs
 //for post auth required
@@ -57,30 +52,30 @@ router.route('/content/blogs')
 
   //for put and delete auth required
 router.route('/content/blogs/:id')
-  .put(updateBlog)
-  .delete(deleteBlog);
+  .put(auth,updateBlog)
+  .delete(auth,deleteBlog);
 
 // Handle tests
 //for post auth required
 router.route('/content/tests')
-  .get(getAllTestsOfUser)
-  .post(createTest);
+  .get(auth,getAllTestsOfUser)
+  .post(auth,createTest);
 
   //for put and delete auth required
 router.route('/content/tests/:id')
-  .put(updateTest)
-  .delete(deleteTest);
+  .put(auth,updateTest)
+  .delete(auth,deleteTest);
 
 // Handle courses
 //for post auth required
 router.route('/content/courses')
-  .get(getAllCoursesOfUser)
-  .post(createCourse);
+  .get(auth,getAllCoursesOfUser)
+  .post(auth,createCourse);
 
 // auth required
 router.route('/content/courses/:id')
-  .put(updateCourse)
-  .delete(deleteCourse);
+  .put(auth,updateCourse)
+  .delete(auth,deleteCourse);
 
   //for Sign Up
 
@@ -117,15 +112,15 @@ router.route('/content/courses/:id')
         // CHECK USER
         const q = "SELECT * FROM user WHERE username = ?";
         const data = await db.query(q, [req.body.username]);
+        const username = req.body.username;
     
         if (data[0].length === 0) return res.status(404).json("User not found!");
-        console.log(data)
         // Check password
         const isPasswordCorrect = bcrypt.compareSync(
           req.body.password,
           data[0][0].password
         );
-        console.log(data[0][0].password)
+        // console.log(data[0][0].password)
         // console.log(req.body.password);
         // console.log("data[0].password:", data[0].password);
         if (!isPasswordCorrect)
@@ -139,7 +134,7 @@ router.route('/content/courses/:id')
             httpOnly: true,
           })
           .status(200)
-          .json({"ok" : "ok"});
+          .json({username,token});
       } catch (err) {
         console.error(err);
         res.status(500).json(err);

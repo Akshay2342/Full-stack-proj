@@ -8,7 +8,7 @@ const app = express()
 const port = 5000
 
 app.use(express.json());
-app.use(cors());    
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));    
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
