@@ -15,6 +15,7 @@ import LsDisplay from './Components/LsDisplay';
 import { AuthContexProvider } from './context/authContext';
 import { ThemeProvider,createTheme } from '@mui/material/styles';
 import { Box } from '@mui/system';
+import AllBlogs from './Pages/AllBlogs';
 
 export const themeOptions = {
   palette: {
@@ -61,6 +62,7 @@ function App() {
             <Route path="/upload_course" element={<TransitionGroupExample/>} />
             <Route path="/view_course" element={<ViewCourse />} />
             <Route path="/login" element={<LsDisplay />} />
+            <Route path="/AllBlogs" element={<AllBlogs />} />
           </Routes>
       </div>
     </div>

@@ -1,20 +1,38 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { TextField, Button } from "@mui/material";
 import axios from "axios";
+import { AuthContext } from "../context/authContext";
 
 //test
-const username = 'ak_47'
 //test
 
 const CommentBox = ({id}) => {
   const [comment, setComment] = useState("");
-
+  const {currentUser} = useContext(AuthContext); 
+  console.log(currentUser)
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    axios.post(`http://localhost:5000/api/user/content/comment/${id}`,{ username : username, comment : comment })
-    console.log(id) 
-    setComment("");
+  
+    // Check if currentUser is not null
+    if (currentUser) {
+      axios.post(`http://localhost:5000/api/user/content/comment/${id}`, 
+        { 
+          username : currentUser.username, 
+          comment : comment 
+        },  
+        { 
+          headers : {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentUser.token}`
+          }
+        }
+      )
+      console.log(id) 
+      setComment("");
+    } else {
+      // Handle the case when currentUser is null
+      console.log('User is not logged in');
+    }
   };
 
   const handleChange = (event) => {

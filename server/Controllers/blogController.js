@@ -20,8 +20,9 @@ const getBlogById = asyncHandler(async (req, res) => {
 // all blogs
 const getAllBlogs = asyncHandler(async (req, res) => {
     try {
-        const { rows } = await db.query('SELECT * FROM blog');
-        res.status(200).json({title : "Blogs"});
+        const  rows  = await db.query('SELECT * FROM blog');
+        // console.log(rows)
+        res.status(200).json(rows);
     } catch (error) {
         throw error;
     }
@@ -39,8 +40,9 @@ const getAllBlogs = asyncHandler(async (req, res) => {
 
 const deleteABlog = asyncHandler(async (req, res) => {
     try {
+        const user = req.userId;
         const { rows } = await db.query('DELETE FROM blog WHERE contentID = $1', [req.params.id]);
-        res.status(200).json(rows);
+        res.status(200).json(user);
     } catch (error) {
         throw error;
     }

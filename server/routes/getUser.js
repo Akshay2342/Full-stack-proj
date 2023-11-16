@@ -114,6 +114,7 @@ router.route('/content/courses/:id')
         const data = await db.query(q, [req.body.username]);
         const username = req.body.username;
     
+        console.log("ohh" + username)
         if (data[0].length === 0) return res.status(404).json("User not found!");
         // Check password
         const isPasswordCorrect = bcrypt.compareSync(
@@ -126,7 +127,7 @@ router.route('/content/courses/:id')
         if (!isPasswordCorrect)
           return res.status(400).json("Wrong username or password!");
     
-        const token = jwt.sign({ id: data[0].id }, "jwtkey");
+        const token = jwt.sign({ id: data[0].id, username : username }, "jwtkey");
         const { password, ...other } = data[0];
     
         res
@@ -162,6 +163,6 @@ router.route('/content/courses/:id')
     });
   });
   // for comment a content
-  router.route('/content/comment/:id').post(postComment).put(updateComment).delete(deleteComment);
+  router.route('/content/comment/:id').post(auth,postComment).put(auth,updateComment).delete(auth,deleteComment);
 
 module.exports = router;

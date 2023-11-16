@@ -11,6 +11,8 @@ const Home = () => {
         <Link to = '/view_test' >View TEst</Link>
         <Link to = '/upload_course' >Upload Course</Link>
         <Link to = '/view_course' >view_course</Link>
+        <Link to = '/AllBlogs' >All Blogs Here</Link>
+        <br />
         </>
      );
 }

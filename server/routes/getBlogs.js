@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {getBlogById,getAllBlogs} = require('../Controllers/blogController');
+const auth = require('../middleware/auth');
 
 // get blogs with particular id
 // public
@@ -27,8 +28,11 @@ router.get('/', getAllBlogs);
 
 // delete a blog
 // private
-router.delete('/:id', (req, res) => {
-    res.status(200).send(`Hello delete from getBlogs.js with id ${req.params.id}`)
+router.delete('/:id', auth,  (req, res) => {
+    const username = req.userId;
+
+    console.log(user)
+    res.status(200).send(`Hello delete from getBlogs.js with id ${req.params.id} ${username}`)
     }
 );
 
