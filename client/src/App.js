@@ -16,6 +16,9 @@ import { AuthContexProvider } from './context/authContext';
 import { ThemeProvider,createTheme } from '@mui/material/styles';
 import { Box } from '@mui/system';
 import AllBlogs from './Pages/AllBlogs';
+import AllCourses from './Pages/AllCourses';
+import AllTests from './Pages/AllTests';
+import AllBooks from './Pages/AllBooks';
 
 export const themeOptions = {
   palette: {
@@ -63,6 +66,10 @@ function App() {
             <Route path="/view_course" element={<ViewCourse />} />
             <Route path="/login" element={<LsDisplay />} />
             <Route path="/AllBlogs" element={<AllBlogs />} />
+            <Route path="/AllCourses" element={<AllCourses />} />
+            <Route path="/AllTests" element={<AllTests />} />
+            <Route path="/AllBooks" element={<AllBooks />} />
+            <Route path="/Home" element={<Home />} />
           </Routes>
       </div>
     </div>

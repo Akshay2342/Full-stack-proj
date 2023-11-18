@@ -122,3 +122,12 @@
     margin-top: 16vh;
 }
 /* for display */
+
+/* ForAllCompo */
+.allcomp{
+    position: absolute;
+    left: 20%;
+    height: 250px;
+    box-shadow: 20;
+}
+/* ForAllCompo */
