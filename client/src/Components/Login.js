@@ -109,8 +109,9 @@ export default function Login() {
       setSuccess("Login Successful");
  navigate("/");
       } catch (err) {
-        console.log(err.response.data);
+        setFormValid(err.response.data);
         //console.log(err.response.data);
+        return;
       }
 
     if(!currentUser){
