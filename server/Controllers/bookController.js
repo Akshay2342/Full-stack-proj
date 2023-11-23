@@ -63,7 +63,6 @@ const getBookById =  (req, res) => {
 
 
 const getAllBooks = asyncHandler( (req, res) => {
-    
     res.status(200).json({title : "Books"});
 })
 

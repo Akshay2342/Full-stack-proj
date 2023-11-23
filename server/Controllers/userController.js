@@ -15,7 +15,7 @@ const getAllBooksOfUser = async (req, res) => {
       author: req.body.author,
       description: req.body.description,
       book_img: req.files['photo'][0].buffer,
-      book_pdf: req.files['bookFile'][0].buffer,
+      book_pdf: req.files['bookFile'][0 ].buffer,
       userID : 3
     };
     console.log("reached1");
@@ -222,26 +222,26 @@ const userId = result[0].id;
     //datetime datatype in sql so 
     const username = req.userId;
     console.log(username)
-    //generating USerid With username
-  // const result = await db.query('SELECT userId FROM user WHERE username = ?', username);
-  // const userId = result[0][0].userId;
-  // //generating USerid With username
+    // generating USerid With username
+  const result = await db.query('SELECT userId FROM user WHERE username = ?', username);
+  const userId = result[0][0].userId;
+  //generating USerid With username
 
-  //   const strdatetime = date.toISOString().slice(0, 19).replace('T', ' ');
-  //   console.log(strdatetime)
-  //   const cid = req.params.id;
-  //   const comment = req.body.comment;
-  //   let query = 'INSERT INTO comments SET ?';
-  //   const obj = {
-  //     contentID : cid,
-  //     userId : userId,
-  //     commentBody : comment,
-  //     uploadDatetime : strdatetime
-  //   }
-  //   db.query(query, obj, (error, results) => {
-  //     if (error) throw error;
-  //     console.log('Inserted ' + results.affectedRows + ' row(s).');
-  //   });
+    const strdatetime = date.toISOString().slice(0, 19).replace('T', ' ');
+    console.log(strdatetime)
+    const cid = req.params.id;
+    const comment = req.body.comment;
+    let query = 'INSERT INTO comments SET ?';
+    const obj = {
+      contentID : cid,
+      userId : userId,
+      commentBody : comment,
+      uploadDatetime : strdatetime
+    }
+    db.query(query, obj, (error, results) => {
+      if (error) throw error;
+      console.log('Inserted ' + results.affectedRows + ' row(s).');
+    });
     res.send("okInserted");
   }
 

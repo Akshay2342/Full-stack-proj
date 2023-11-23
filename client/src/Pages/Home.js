@@ -191,7 +191,6 @@ const Navbar = () => {
   </ListItem>
         </List>
       </Box>
-     
     </Box>
     </>
   );

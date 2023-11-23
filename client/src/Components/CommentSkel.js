@@ -10,9 +10,9 @@ const CommentBox = ({id}) => {
   const [comment, setComment] = useState("");
   const {currentUser} = useContext(AuthContext); 
   console.log(currentUser)
+
   const handleSubmit = (event) => {
     event.preventDefault();
-  
     // Check if currentUser is not null
     if (currentUser) {
       axios.post(`http://localhost:5000/api/user/content/comment/${id}`, 
@@ -27,7 +27,6 @@ const CommentBox = ({id}) => {
           }
         }
       )
-      console.log(id) 
       setComment("");
     } else {
       // Handle the case when currentUser is null

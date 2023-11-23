@@ -57,7 +57,7 @@ function App() {
       <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/upload_blog" element={<UploadBlog />} />
-            <Route path="/view_blog" element={<ViewBlog />} />
+            <Route path="/view_blog" element={<AllBlogs />} />
             <Route path="/upload_book" element={<UploadBook />} />
             <Route path="/view_book" element={<ViewBook />} />
             <Route path="/upload_test" element={<UploadTestCpy />} />
