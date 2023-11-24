@@ -1,4 +1,5 @@
       import { Login, ExitToApp , Mail, Notifications, Pets } from "@mui/icons-material";
+      import logo from '../../src/Edusphere.png'
       //import { Carousel } from 'react-responsive-carousel';
       //import "react-responsive-carousel/lib/styles/carousel.min.css";
       import {
@@ -76,6 +77,7 @@
           <>
           <AppBar>
             <StyledToolbar>
+              <img src={logo} alt="Logo" style={{ width: '50px', height: '50px' }} />
               <Typography variant="h6" sx={{ display: { xs: "none", sm: "block" } }}>
                 EDUSPHERE
               </Typography>
