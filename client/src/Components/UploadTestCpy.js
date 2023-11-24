@@ -105,7 +105,11 @@ const handleClickVariant = (variant) => () => {
       user : username,
       questions : questionList
     }
-    axios.post("http://localhost:5000/api/user/content/tests",it)
+    try {
+      axios.post("http://localhost:5000/api/user/content/tests",it)
+    } catch (e) {
+      
+    }
   }
     
 

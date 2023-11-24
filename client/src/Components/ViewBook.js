@@ -64,6 +64,7 @@ export default function ViewBook() {
     const [searchTerm, setSearchTerm] = useState('');
   
     useEffect(() => {
+      try {
       if (searchTerm) {
         axios.get(`http://localhost:5000/api/books/search?bookName=${searchTerm}`)
           .then(response => {
@@ -75,6 +76,9 @@ export default function ViewBook() {
       } else {
         setBooks([]);
       }
+    } catch(e) {
+        
+    }
     }, [searchTerm]);
   
     const handleSearchChange = (event) => {

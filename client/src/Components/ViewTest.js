@@ -36,8 +36,15 @@ const color = blueGrey[100]
 //       marks: 2, // Question is worth 2 marks
 //     },
 //   ];
-const resu = await axios.get("http://localhost:5000/api/tests/30");
-const questions = JSON.parse(resu.data[0].questions);
+
+let questions;
+try {
+  const resu = await axios.get("http://localhost:5000/api/tests/30");
+  questions = JSON.parse(resu.data[0].questions);
+} catch {
+
+}
+
 
 const QuestionPages = () => {
   const [selectedAnswers, setSelectedAnswers] = useState(Array(questions.length).fill(''));

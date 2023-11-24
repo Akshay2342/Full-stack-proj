@@ -16,7 +16,8 @@ const UploadBlog = () => {
     let dateString = date.toISOString().split('T')[0];
 
         console.log(currentUser);
-
+      try {
+        
         axios.post('http://localhost:5000/api/user/content/blogs', 
         { 
           title : title, 
@@ -31,6 +32,8 @@ const UploadBlog = () => {
           }
         }
       )
+    } catch (e) {}
+
 
    }
     var toolbarOptions = [

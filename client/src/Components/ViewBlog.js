@@ -111,19 +111,24 @@ const ViewBlog = ({ id }) => {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await axios.get(`http://localhost:5000/api/blogs/${id}`);
-      setBlog(res.data);
-
-      const ress = await axios.get(`http://localhost:5000/api/comments/${id}`);
-      const rcomments = ress.data;
-      const commentsData = rcomments.map((element, index) => ({
-        id: index + 1,
-        userAvatar: 'avatar1.png',
-        userId: element.userId,
-        date: element.uploadDatetime,
-        text: element.commentBody
-      }));
-      setComments(commentsData);
+      try {
+        const res = await axios.get(`http://localhost:5000/api/blogs/${id}`);
+        setBlog(res.data);
+  
+        const ress = await axios.get(`http://localhost:5000/api/comments/${id}`);
+        const rcomments = ress.data;
+        const commentsData = rcomments.map((element, index) => ({
+          id: index + 1,
+          userAvatar: 'avatar1.png',
+          userId: element.userId,
+          date: element.uploadDatetime,
+          text: element.commentBody
+        }));
+        setComments(commentsData);
+      } catch(e) {
+        
+      }
+      
     }
 
     fetchData();

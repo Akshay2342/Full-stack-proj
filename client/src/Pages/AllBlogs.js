@@ -8,13 +8,18 @@ const AllBlogs = () => {
     const [Id, setId] = useState([]);
 
     useEffect(() => {
-      axios.get('http://localhost:5000/api/blogs')
+      try {
+        axios.get('http://localhost:5000/api/blogs')
         .then(res => {
             console.log(res.data[0])
           const ids = res.data[0].map(element => element.contentID);
           setId(ids);
         })
         .catch(err => console.log(err));
+      } catch(err) {
+        
+      }
+      
     }, []);
     
 

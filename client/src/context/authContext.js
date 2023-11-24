@@ -9,15 +9,23 @@ export const AuthContexProvider = ({ children }) => {
   );
 
   const login = async (inputs) => {
-    const res = await axios.post("http://localhost:5000/api/user/login", inputs);
-    // console.log(res.data)
-    setCurrentUser(res.data);
-    // console.log(currentUser)
+    try {
+      const res = await axios.post("http://localhost:5000/api/user/login", inputs);
+      // console.log(res.data)
+      setCurrentUser(res.data);
+      // console.log(currentUser)
+    } catch(e) {
+          
+    }
   };
 
   const logout = async (inputs) => {
-    await axios.post("/logout");
-    setCurrentUser(null);
+    try {
+      await axios.post("/logout");
+      setCurrentUser(null);
+    } catch (e) {
+
+    }
   };
 
   useEffect(() => {

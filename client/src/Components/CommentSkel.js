@@ -15,7 +15,8 @@ const CommentBox = ({id}) => {
     event.preventDefault();
     // Check if currentUser is not null
     if (currentUser) {
-      axios.post(`http://localhost:5000/api/user/content/comment/${id}`, 
+      try {
+        axios.post(`http://localhost:5000/api/user/content/comment/${id}`, 
         { 
           username : currentUser.username, 
           comment : comment 
@@ -27,6 +28,9 @@ const CommentBox = ({id}) => {
           }
         }
       )
+      } catch(err) {
+
+      }
       setComment("");
     } else {
       // Handle the case when currentUser is null
