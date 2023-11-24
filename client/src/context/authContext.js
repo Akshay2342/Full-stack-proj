@@ -33,7 +33,7 @@ export const AuthContexProvider = ({ children }) => {
   const logout = async (inputs) => {
     try {
       setCurrentUser(null);
-      localStorage.setItem("user", undefined);
+      localStorage.removeItem("user");
     } catch (e) {
 
     }
