@@ -234,6 +234,14 @@ export default function Login() {
           </Alert>
         </Stack>
       )}
+      <div style={{ marginTop: "7px", fontSize: "10px" }} margin="left">
+        <a>Forgot Password</a>
+        <br />
+        Do you have an account ?{" "}
+        <small style={{ textDecoration: "underline", color: "blue" }}>
+          Sign Up
+        </small>
+      </div>
     </div>
   );
 }

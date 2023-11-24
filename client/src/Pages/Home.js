@@ -118,7 +118,6 @@ const Navbar = () => {
         }}
       >
         <MenuItem>Profile</MenuItem>
-        <MenuItem>My account</MenuItem>
         <MenuItem><Button component={Link} to="/login">Login</Button></MenuItem>
       </Menu>
     </AppBar>

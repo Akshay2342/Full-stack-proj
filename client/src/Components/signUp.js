@@ -34,9 +34,13 @@ export default function SignUp() {
   const [usernameInput, setUsernameInput] = useState();
   const [emailInput, setEmailInput] = useState();
   const [passwordInput, setPasswordInput] = useState();
+  const [firstnameInput, setFirstName] = useState();
+  const [lastnameInput, setLastName] = useState();
 
   // Inputs Errors
   const [usernameError, setUsernameError] = useState(false);
+  const [firstNameError, setFirstNameError] = useState(false);
+  const [lastNameError, setLAstNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
@@ -61,6 +65,24 @@ export default function SignUp() {
     }
 
     setUsernameError(false);
+  };
+
+  const handleFirstName = () => {
+    if (!firstnameInput) {
+      setFirstNameError(true);
+      return;
+    }
+
+    setFirstNameError(false);
+  };
+
+  const handleLastName = () => {
+    if (!lastnameInput) {
+      setLAstNameError(true);
+      return;
+    }
+
+    setLAstNameError(false);
   };
 
   // Validation for onBlur Email
@@ -97,7 +119,9 @@ export default function SignUp() {
         await axios.post("http://localhost:5000/api/user/signup",{
         nickname:usernameInput,     
         username : emailInput,
-        password : passwordInput
+        password : passwordInput,
+        firstname: firstnameInput,
+        lastname: lastnameInput,
       })
       .then(res=>{
         if(res.data==="exist"){
@@ -151,8 +175,42 @@ export default function SignUp() {
     <div>
       <div style={{ marginTop: "10px" }}>
         <TextField
+          error={firstNameError}
+          name="firstname"
+          label="First name"
+          id="standard-basic"
+          variant="standard"
+          sx={{ width: "100%" }}
+          size="small"
+          value={firstnameInput}
+          InputProps={{}}
+          onChange={(event) => {
+            setFirstName(event.target.value);
+          }}
+          onBlur={handleFirstName}
+        />
+      </div>
+      <div style={{ marginTop: "10px" }}>
+      <TextField
+          error={lastNameError}
+          name="lastname"
+          label="Last name"
+          id="standard-basic"
+          variant="standard"
+          sx={{ width: "100%" }}
+          size="small"
+          value={lastnameInput}
+          InputProps={{}}
+          onChange={(event) => {
+            setLastName(event.target.value);
+          }}
+          onBlur={handleLastName}
+        />
+      </div>
+      <div style={{ marginTop: "10px" }}>
+        <TextField
           error={usernameError}
-          label="nickname"
+          label="Nickname"
           name="nickname"
           id="standard-basic"
           variant="standard"
@@ -246,15 +304,6 @@ export default function SignUp() {
           </Alert>
         </Stack>
       )}
-
-      <div style={{ marginTop: "7px", fontSize: "10px" }} margin="left">
-        <a>Forgot Password</a>
-        <br />
-        Do you have an account ?{" "}
-        <small style={{ textDecoration: "underline", color: "blue" }}>
-          Sign Up
-        </small>
-      </div>
     </div>
   );
 }

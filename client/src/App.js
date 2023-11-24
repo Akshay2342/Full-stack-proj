@@ -1,7 +1,7 @@
 import './App.css';
 import Home from './Components/Home';
 import Navbar from './Components/Navbar';
-import { BrowserRouter as  Router , Route , Routes } from 'react-router-dom';
+import { BrowserRouter as  Router , Route , Routes, useNavigate } from 'react-router-dom';
 import UploadBlog from './Components/UploadBlog';
 import ViewBlog from './Components/ViewBlog';
 import ViewBook from './Components/ViewBook';
@@ -19,6 +19,7 @@ import AllBlogs from './Pages/AllBlogs';
 import AllCourses from './Pages/AllCourses';
 import AllTests from './Pages/AllTests';
 import AllBooks from './Pages/AllBooks';
+import Profile from './Components/Profile';
 
 export const themeOptions = {
   palette: {
@@ -70,6 +71,7 @@ function App() {
             <Route path="/AllTests" element={<AllTests />} />
             <Route path="/AllBooks" element={<AllBooks />} />
             <Route path="/Home" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
       </div>
     </div>

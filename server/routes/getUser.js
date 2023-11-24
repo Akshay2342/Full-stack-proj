@@ -79,6 +79,78 @@ router.route('/content/courses/:id')
 
   //for Sign Up
 
+  router.post("/update", async (req, res) => {
+    const username = req.body.username;
+  
+    try {
+      // Check if the user exists
+      const checkUserQuery = "SELECT * FROM user WHERE username = ?";
+      const userData = await db.query(checkUserQuery, [username]);
+  
+      console.log(req.body);
+      if (userData[0].length === 0) {
+        return res.status(404).json({ error: "User not found" });
+      }
+  
+      // Prepare the update query and values
+      let updateQuery = "UPDATE user SET";
+      const updateValues = [];
+      const allowedColumns = ['username', 'password', 'name', 'firstname', 'lastname'];
+  
+      for (const column of allowedColumns) {
+        if (req.body[column]) {
+          if (column === 'password') {
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(req.body.password, salt);
+            updateQuery += ` ${column} = ?,`;
+            updateValues.push(hash);
+          } else {
+            updateQuery += ` ${column} = ?,`;
+            updateValues.push(req.body[column]);
+          }
+        }
+      }
+  
+      // Remove the trailing comma and add the WHERE clause
+      updateQuery = updateQuery.slice(0, -1) + " WHERE username = ?";
+      updateValues.push(username);
+      
+  
+      // Execute the update query
+      const result = await db.query(updateQuery, updateValues);
+      const data = await db.query("SELECT * FROM user WHERE username = ?", [req.body.username]);
+      let firstname;
+      let lastname;
+      let name;
+  
+      console.log(data[0][0])
+      if (data[0].length === 0) return res.status(404).json("User not found!");
+      // Check password
+      firstname = data[0][0]?.firstname
+      lastname = data[0][0]?.lastname
+      name = data[0][0]?.name
+      console.log('--------');
+      const token = jwt.sign({ id: data[0].id, username : username }, "jwtkey");
+        const { password, ...other } = data[0];
+    
+        res
+          .cookie("access_token", token, {
+            httpOnly: true,
+          })
+          .status(200)
+          .json({
+            username,
+            token,
+            firstname,
+            lastname
+          });
+
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+  
 
   router.post("/signup", async (req, res) => {
     try {
@@ -95,9 +167,10 @@ router.route('/content/courses/:id')
       const salt = bcrypt.genSaltSync(10);
       const hash = bcrypt.hashSync(req.body.password, salt);
   
-      const q = "INSERT INTO user SET username = ?, password = ?, name = ?";
-      const values = [req.body.username, hash, req.body.nickname];
-  
+      const q = "INSERT INTO user SET username = ?, password = ?, name = ?, firstname = ?, lastname = ?";
+      const values = [req.body.username, hash, req.body.nickname, req.body.firstname, req.body.lastname];
+      
+      console.log(values);
       await db.query(q, values);
       res.status(200).json("User created");
     } catch (err) {
@@ -113,14 +186,20 @@ router.route('/content/courses/:id')
         const q = "SELECT * FROM user WHERE username = ?";
         const data = await db.query(q, [req.body.username]);
         const username = req.body.username;
+        let firstname;
+        let lastname;
+        let name;
     
-        console.log("ohh" + username)
+        console.log(data[0][0])
         if (data[0].length === 0) return res.status(404).json("User not found!");
         // Check password
         const isPasswordCorrect = bcrypt.compareSync(
           req.body.password,
           data[0][0].password
         );
+        firstname = data[0][0]?.firstname
+        lastname = data[0][0]?.lastname
+        name = data[0][0]?.name
         // console.log(data[0][0].password)
         // console.log(req.body.password);
         // console.log("data[0].password:", data[0].password);
@@ -135,7 +214,7 @@ router.route('/content/courses/:id')
             httpOnly: true,
           })
           .status(200)
-          .json({username,token});
+          .json({username,token,firstname, lastname, name});
       } catch (err) {
         console.error(err);
         res.status(500).json(err);

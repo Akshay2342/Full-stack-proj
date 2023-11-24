@@ -1,4 +1,4 @@
-      import { Mail, Notifications, Pets } from "@mui/icons-material";
+      import { Login, ExitToApp , Mail, Notifications, Pets } from "@mui/icons-material";
       //import { Carousel } from 'react-responsive-carousel';
       //import "react-responsive-carousel/lib/styles/carousel.min.css";
       import {
@@ -71,9 +71,10 @@
       const Navbar = () => {
         const { currentUser, logout } = useContext(AuthContext);
         const [open, setOpen] = useState(false);
+
         return (
           <>
-          <AppBar position="sticky">
+          <AppBar>
             <StyledToolbar>
               <Typography variant="h6" sx={{ display: { xs: "none", sm: "block" } }}>
                 EDUSPHERE
@@ -117,9 +118,16 @@
                 horizontal: "right",
               }}
             >
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>My account</MenuItem>
-              <MenuItem><Button component={Link} to="/login">Login</Button></MenuItem>
+              <MenuItem>
+                <Button component={Link} to="/profile">
+                        Profile
+                  </Button>
+                </MenuItem>
+              {!currentUser?.username ? <MenuItem><Login></Login><Button component={Link} to="/login">Sign In</Button></MenuItem> : null}
+              {currentUser?.username ? <MenuItem onClick={() => {
+                console.log('logging out')
+                logout()
+                }}><ExitToApp></ExitToApp><Button>Sign out</Button></MenuItem> : null}
             </Menu>
           </AppBar>
           <Box flex={1} p={2} sx={{ display: { xs: "none", sm: "flex" } }}>

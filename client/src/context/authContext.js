@@ -19,21 +19,41 @@ export const AuthContexProvider = ({ children }) => {
     }
   };
 
+  const update = async (inputs) => {
+    try {
+      const res = await axios.post("http://localhost:5000/api/user/update", inputs);
+      // console.log(res.data)
+      setCurrentUser(res.data);
+      // console.log(currentUser)
+    } catch(e) {
+          
+    }
+  };
+
   const logout = async (inputs) => {
     try {
-      await axios.post("/logout");
       setCurrentUser(null);
+      localStorage.setItem("user", undefined);
     } catch (e) {
 
     }
   };
 
   useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(currentUser));
+    if (currentUser) {
+      localStorage.setItem("user", JSON.stringify(currentUser));
+    }
   }, [currentUser]);
 
+  useEffect(() => {
+    if (!currentUser) {
+      const userObj = localStorage.getItem("user")
+      setCurrentUser(JSON.parse(userObj))
+    }
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ currentUser, login,logout }}>
+    <AuthContext.Provider value={{ currentUser, login,logout, update }}>
       {children}
     </AuthContext.Provider>
   );
